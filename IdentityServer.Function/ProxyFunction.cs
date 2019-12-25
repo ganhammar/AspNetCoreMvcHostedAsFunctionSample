@@ -21,7 +21,7 @@ namespace IdentityProvider.Function
 {
     public static class ProxyFunction
     {
-        [FunctionName("RouterFunction")]
+        [FunctionName("ProxyFunction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(
                 AuthorizationLevel.Anonymous,
@@ -59,7 +59,6 @@ namespace IdentityProvider.Function
             services.AddSingleton<DiagnosticListener>(diagnosticListener);
             services.AddSingleton<ObjectPoolProvider>(new DefaultObjectPoolProvider());
             services.AddSingleton<IWebHostEnvironment>(hostingEnvironment);
-            services.AddSingleton<IHostEnvironment>(hostingEnvironment);
             services.AddSingleton<IConfiguration>(config);
 
             /* Instantiate standard ASP.NET Core Startup class */
