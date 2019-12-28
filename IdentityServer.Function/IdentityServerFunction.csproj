@@ -23,6 +23,10 @@
       <ProjectReference Include="..\IdentityServer\IdentityServer.csproj" />
     </ItemGroup>
 
+    <Target Name="CopyTempKey" AfterTargets="PostBuildEvent">
+        <Copy SourceFiles="$(ProjectDir)..\IdentityServer\tempkey.rsa" DestinationFolder="$(TargetDir)" OverwriteReadOnlyFiles="true" />
+    </Target>
+
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <ItemGroup>
             <OutputFiles Include="$(OutDir)*.Views.dll" />
@@ -34,7 +38,7 @@
         </ItemGroup>
 
         <Move SourceFiles="@(OutputFiles)" DestinationFolder="$(TargetDir)bin" OverwriteReadOnlyFiles="true" />
-        <Copy SourceFiles="@(StaticFiles)" DestinationFiles="@(StaticFiles->'$(TargetDir)bin\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" />
+        <Copy SourceFiles="@(StaticFiles)" DestinationFiles="@(StaticFiles->'$(TargetDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" />
     </Target>
 
 </Project>

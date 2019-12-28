@@ -2,6 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
+using System.IO;
+using System.Reflection;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +26,12 @@ namespace IdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddTestUsers(TestUsers.Users);
 
-            builder.AddDeveloperSigningCredential();
+            var root = Environment.GetEnvironmentVariable("AzureWebJobsScriptRoot")
+                ?? (Environment.GetEnvironmentVariable("HOME") == null
+                    ? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                    : $"{Environment.GetEnvironmentVariable("HOME")}/site/wwwroot");
+
+            builder.AddDeveloperSigningCredential(filename: Path.Combine(root, "tempkey.rsa"));
 
             services.AddAuthentication()
                 .AddGoogle("Google", options =>

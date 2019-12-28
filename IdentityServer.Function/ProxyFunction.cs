@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using IdentityProvider.Function.Infrastructure;
 using System.IO;
-using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
 namespace IdentityProvider.Function
@@ -39,8 +38,8 @@ namespace IdentityProvider.Function
                 .Build();
 
             /* Setup environment */
-            var functionPath = Path.Combine(context.FunctionAppDirectory, "bin");
-            var contentPath = functionPath;
+            var functionPath = context.FunctionAppDirectory;
+            var contentPath = Path.Combine(functionPath, "bin");
             var webRootPath = Path.Combine(functionPath, "wwwroot");
             var hostingEnvironment = new WebHostEnvironment
             {
